@@ -1,0 +1,29 @@
+{% extends "public/__main_temp.html" %}
+{% block title %}Gift your phone{% endblock %}
+{% block content %}
+{% load crispy_forms_tags %}
+
+<div class="container-fluid h-100">
+    <div class="row h-100">
+        <div class="col-md-4">
+            <img src="/static/images/login_image1.svg" alt="login_image_left" class="img-fluid"/>
+        </div>
+        <div class="col-md-4 align-self-center">
+            <h1 class="text-center mb-4 border-bottom-center">Gift your phone</h1>
+            <form action = "" method = "POST" enctype= "multipart/form_data">
+{% csrf_token %}
+{{form|crispy}}
+<input type = "Submit" value = "Send Gift" onclick="myFunction()">
+</form>
+
+        </div>
+        
+    </div>
+</div>
+
+<script>
+function myFunction() {
+  alert("Thank you. One of our collectors will contact you soon.");
+}
+</script>
+{% endblock %}

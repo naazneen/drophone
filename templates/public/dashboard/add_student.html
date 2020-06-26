@@ -1,0 +1,106 @@
+{% extends "public/dashboard/dashboard_sidebar.html" %}
+{% block title %}Add Venue{% endblock %}
+{% load crispy_forms_tags%}
+{% block sidebar_propic %}
+    {% if me.avatar %}
+        /media/{{me.avatar}}
+    {% else %}
+        https://image.flaticon.com/icons/svg/667/667378.svg
+    {% endif %}
+{% endblock sidebar_propic %}
+
+
+{% block notifications %}
+    {% if notifications %}
+        {% for notification in notifications  %}
+            <a class="dropdown-item" href="/dashboard/emails">{{notification.email_address}}</a>
+        {% endfor %}
+    {% else %}
+        <a class="dropdown-item" href="/dashboard/emails">There Is No Booking Emails</a>
+    {% endif %}
+{% endblock notifications %}
+
+
+{% block notifications_length %}
+    {{notifications|length}}
+{% endblock notifications_length %}
+
+{% block email %}
+    {{me.email}}
+{% endblock email %}
+{% block dashboard_email %}
+    {{me.email}}
+{% endblock dashboard_email %}
+
+{% block dashboard_username %}
+    {{me.first_name}}
+{% endblock dashboard_username %}
+{% block pro_pic %}
+    {% if me.avatar %}
+        /media/{{me.avatar}}
+    {% else %}
+        https://image.flaticon.com/icons/svg/667/667378.svg
+    {% endif %}
+{% endblock pro_pic %}
+
+{% block venue_active %}
+    cus-active
+{% endblock venue_active %}
+
+{% block first_name %}
+    {{me.first_name}}
+{% endblock first_name %}
+{% block content %}
+    <div class="container pt-0 px-5">
+        <div class="row mb-5">
+            <div class="col-md-6">
+                <a href="/dashboard/students/" class="btn btn-primary round-50">
+                    <i data-feather="chevron-left"></i>
+                </a>
+            </div>
+        </div>
+        <form action="/dashboard/students/save-student/" class="row" method="post" enctype="multipart/form-data">
+                            {% for message in messages %}
+                    <div class="alert alert-warning mb-4 mt-4">
+                        {{message}}
+                    </div>
+                {% endfor %}
+            {% csrf_token %}
+            
+            <div class="form-group">
+                <input type="text" id="firstname" style="background: #e0e0e0;" required placeholder="First Name" name="firstname" class="form-control text-filed-bg-grey"/>
+                </div>
+                <br>
+                <div class="form-group">
+                    <input type="text" id="lastname" style="background: #e0e0e0;" required placeholder="Last Name" name="lastname" class="form-control text-filed-bg-grey"/>
+                </div>
+                <div class="form-group">
+                    <input type="email" id="email" style="background: #e0e0e0;" required placeholder="Email Address" name="email" class="form-control text-filed-bg-grey"/>
+                    <small class="text-muted" id="emailHelper"></small>
+                </div>
+                <div class="form-group">
+                    <input type="text" id="phonenumber" style="background: #e0e0e0;" required placeholder="Phone Number" name="phonenumber" class="form-control text-filed-bg-grey"/>
+                </div>
+                <div class="form-group">
+                    <input type="text" id="GRNumber" style="background: #e0e0e0;" required placeholder="GR Number" name="GRNumber" class="form-control text-filed-bg-grey"/>
+                </div>
+                <div class="form-group">
+                    <input type="text" id="classname" style="background: #e0e0e0;" required placeholder="Class Name" name="classname" class="form-control text-filed-bg-grey"/>
+                </div>
+               <div class="form-group">
+                    <input type="text" id="rollnumber" style="background: #e0e0e0;" required placeholder="Roll Number" name="rollnumber" class="form-control text-filed-bg-grey"/>
+                </div>
+                <div class="form-group">
+                    <input type="text" id="address" style="background: #e0e0e0;" required placeholder="Address" name="address" class="form-control text-filed-bg-grey"/>
+                </div>
+                <div class="form-group">
+                    <input type="text" id="pincode" style="background: #e0e0e0;" required placeholder="Pin Code" name="pincode" class="form-control text-filed-bg-grey"/>
+                </div>
+            <div class="form-group w-100 d-flex justify-content-end a">
+                <button class="btn btn-primary mr-4" type="reset">Reset</button>
+                <button class="btn btn-primary" type="submit">Save</button>
+            </div>
+        
+        </form>
+    </div>
+{% endblock %}

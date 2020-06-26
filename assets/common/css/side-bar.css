@@ -1,0 +1,64 @@
+#dashboard {
+    margin: 0px;
+    display: flex;
+    flex-direction: row;
+}
+
+.side-bar {
+    height: 100vh;
+    background-color: #000;
+    background-image: linear-gradient(to right top, rgba(0, 255, 255, 0.3), rgba(0, 0, 255, 0.3));
+    color: #fff;
+    padding: 0px;
+}
+
+.side-bar .avatar-section {
+    padding: 10px;
+    margin-bottom: 20px;
+    /* background-color: rgba(0, 0, 0, 0.5); */
+}
+
+.side-bar .avatar-section div {
+    width: 100%;
+    text-align: center;
+    /* background-color: rgba(0, 0, 0, 0.5); */
+}
+
+.side-bar .avatar-section .student-name {
+    font-size: 20px;
+}
+
+.side-bar .avatar-section .user-type {
+    font-size: 10px;
+}
+
+.side-bar .avatar-section .profile-avatar {
+    background-color: #fff;
+    box-shadow: 0px 0px 2px #000;
+    width: 100%;
+    border-radius: 50%;
+}
+
+.side-bar .side-bar-menu {
+    border-top: 1px solid rgba(255, 255, 255, 0.5);
+    padding: 10px 10px;
+    display: block;
+    transition: background-color 1.5s;
+}
+
+.side-bar .side-bar-menu:last-child {
+    border-bottom: 1px solid rgba(255, 255, 255, 0.5);
+}
+
+.side-bar .side-bar-menu {
+    text-decoration: none;
+    color: #fff;
+}
+
+.side-bar .side-bar-menu:hover {
+    background-color: rgba(0, 255, 255, 0.4);
+} 
+
+.side-bar .side-bar-menu.active {
+    background-color: rgba(0, 255, 255, 0.6);
+}

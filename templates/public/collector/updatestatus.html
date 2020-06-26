@@ -1,0 +1,74 @@
+{% extends "public/collector/collector_sidebar.html" %}
+{% block title %}Pick Up{% endblock %}
+
+{% block notifications %}
+    {% if notifications %}
+        {% for notification in notifications  %}
+        <a class="dropdown-item" href="/collector_dashboard">New task assigned</a>
+            <!--<a class="dropdown-item" href="/dashboard/emails">{{notification.email_address}}</a>-->
+        {% endfor %}
+    {% else %}
+        <a class="dropdown-item" href="/collector_dashboard">There Is No New task for you</a>
+    {% endif %}
+{% endblock notifications %}
+
+
+{% block notifications_length %}
+    {{notifications|length}}
+{% endblock notifications_length %}
+
+
+{% block dashboard_username %}
+    {{me.CollectorName}}
+{% endblock dashboard_username %}
+
+
+{% block pro_pic %}
+    {% if me.avatar %}
+        /media/{{me.avatar}}
+    {% else %}
+        https://image.flaticon.com/icons/svg/667/667378.svg
+    {% endif %}
+{% endblock pro_pic %}
+{% block first_name  %}
+    {{me.CollectorName}}
+{% endblock first_name  %}
+{% block content %}
+<pdiv>
+
+<h2>Details</h2>
+
+<p>
+
+<p>Donor Name : {{phone.Name}}<br></p>
+Phone Company : {{phone.Phone_Company}} </p>
+
+
+<p>Model Name : {{phone.Model_Name}}<br/> </p>
+
+<p>Network : {{phone.Network}}<br></p>
+
+<p>Camera : {{phone.Camera}}<br></p>
+
+<p>Earphones : {{phone.Earphones}}<br></p>
+
+<p>Given To Student: {{phone.GRNumber}}<br></p>
+
+
+<p>Earphones : {{phone.Earphones}}<br></p>
+
+
+
+
+<form action = "" method = "POST" enctype= "multipart/form_data">
+{% csrf_token %}
+{{form}}
+
+<br />
+<input type = "Submit" value = "Update Status">
+</form>
+
+<script>
+
+</script>
+{% endblock %}

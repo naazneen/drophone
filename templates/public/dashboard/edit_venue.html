@@ -1,0 +1,158 @@
+{% extends "public/dashboard/dashboard_sidebar.html" %}
+{% block title %}Edit Venue{% endblock %}
+{% block sidebar_propic %}
+    {% if me.avatar %}
+        /media/{{me.avatar}}
+    {% else %}
+        https://image.flaticon.com/icons/svg/667/667378.svg
+    {% endif %}
+{% endblock sidebar_propic %}
+
+{% block notifications %}
+    {% if notifications %}
+        {% for notification in notifications  %}
+            <a class="dropdown-item" href="/dashboard/emails">{{notification.email_address}}</a>
+        {% endfor %}
+    {% else %}
+        <a class="dropdown-item" href="/dashboard/emails">There Is No Booking Emails</a>
+    {% endif %}
+{% endblock notifications %}
+
+
+{% block notifications_length %}
+    {{notifications|length}}
+{% endblock notifications_length %}
+
+{% block dashboard_username %}
+    {{me.first_name}}
+{% endblock dashboard_username %}
+{% block email %}
+    {{me.email}}
+{% endblock email %}
+{% block dashboard_email %}
+    {{me.email}}
+{% endblock dashboard_email %}
+
+{% block venue_active %}
+    cus-active
+{% endblock venue_active %}
+
+{% block pro_pic %}
+    {% if me.avatar %}
+        /media/{{me.avatar}}
+    {% else %}
+        https://image.flaticon.com/icons/svg/667/667378.svg
+    {% endif %}
+{% endblock pro_pic %}
+{% block first_name %}
+    {{me.first_name}}
+{% endblock first_name %}
+{% block content %}
+    <div class="container">
+        <div class="row mb-5">
+            <div class="col-md-6">
+                <a href="/dashboard/venues/" class="btn btn-primary round-50">
+                    <i data-feather="chevron-left"></i>
+                </a>
+            </div>
+        </div>
+       <form action="/dashboard/venues/update-venue/" class="row" method="post" enctype="multipart/form-data">
+            {% csrf_token %}
+            <div class="col-md-4">
+                <div class="form-group">
+                <input name="id" type="hidden" value="{{venue.id}}"/>
+                    <label for="category">Category</label>
+                    <select style="background: #e0e0e0;" class="form-control form-control-sm " name="category" id="category">
+                        <option value="Meeting Rooms">Meeting Room</option>
+                        <option value="Wedding Halls">Wedding Hall</option>
+                        <option value="Conference Rooms">Conference Room</option>
+                        <option value="Sports Grounds">Sports Ground</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="price">Price</label>
+                    <div class="input-group input-group-sm">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text">$</span>
+                          </div>
+                          <input type="number" style="background: #e0e0e0;" class="form-control form-control-sm" name="price" id="price" value="{{venue.price}}" required/>
+                    </div>           
+                </div>
+                <div class="form-group">
+                    <label for="address">Address</label>
+                    <textarea name="address" id="address" style="background: #e0e0e0;" class="form-control form-control-sm resize-false-textarea" rows="5" required>{{venue.address}}</textarea>                </div>
+                <div class="form-group">
+                    <label for="description">Description</label>
+                    <textarea name="description" id="description" style="background: #e0e0e0;" class="form-control form-control-sm resize-false-textarea" rows="5" required>{{venue.description}}</textarea>                </div>
+    
+                <div class="form-group">
+                    <label for="price">Name</label>
+                    <input type="text" style="background: #e0e0e0;" class="form-control form-control-sm" name="name" id="name" value="{{venue.name}}" required/>                </div>
+            </div>
+            <div class="col-md-8">  
+                <div class="form-group">
+                    <div class="form-row">
+                        <div class="col-md-3">
+                            <div class="mr-2">
+                                <label for="imageOne">
+                                    <span class="notify-badge badge badge-primary">Primary</span>
+                                    {% if venue.img_one %}
+                                        <img id="imageOnePreview" src="{{venue.img_one.url}}" height="150" width="150" alt="image 1"/>
+                                    {% else %}
+                                        <img id="imageOnePreview" src="https://image.flaticon.com/icons/svg/685/685686.svg" height="150" width="150" alt="image 1"/>
+                                    {% endif %}
+                                </label>
+                                <input name="image_one" onchange="document.getElementById('imageOnePreview').src = window.URL.createObjectURL(this.files[0])" type="file" class="d-none" id="imageOne">
+                                <button id="delButton" type="button" value="{{venue.id}}" class="btn btn-primary round-50 mt-5"><i data-feather="trash-2"></i></button>
+
+                            </div>
+                            
+                        </div>
+                        <div class="col-md-3 border-0">
+                            <div class="mr-2">
+                                <label for="imageTwo">
+                                {% if venue.img_two %}
+                                    <img id="imageTwoPreview" src="{{venue.img_two.url}}" height="150" width="150" alt="image 1" />
+                                {% else %}
+                                    <img id="imageTwoPreview" src="https://image.flaticon.com/icons/svg/685/685686.svg" height="150" width="150" alt="image 1" />
+                                {% endif %}
+                                </label>
+                                <input name="image_two" onchange="document.getElementById('imageTwoPreview').src = window.URL.createObjectURL(this.files[0])" type="file" class="d-none" id="imageTwo">
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="custom-file">
+                                <label for="imageThree">
+                                    {% if venue.img_three %}
+                                        <img src="{{venue.img_three.url}}" id="imageThreePreview" height="150" width="150" alt="image 1"/>
+                                    {% else %}
+                                        <img src="https://image.flaticon.com/icons/svg/685/685686.svg" id="imageThreePreview" height="150" width="150" alt="image 1"/>
+                                    {% endif %}
+                                </label>
+                            </div>
+                            <input name="image_three" onchange="document.getElementById('imageThreePreview').src = window.URL.createObjectURL(this.files[0])" type="file" class="d-none" id="imageThree">
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="form-group w-100 d-flex justify-content-end a" style="margin-right: 20px;">
+                <button class="btn btn-primary mr-4" type="reset">Reset</button>
+                <button class="btn btn-primary" type="submit">Save</button>
+            </div>
+        </form>
+    </div>
+
+    <script>
+        $('#delButton').click(function(){
+            $.ajax({
+                url : '/dashboard/venues/delete-venue/',
+                method : 'POST',
+                data : {
+                    id : $(this).val(),
+                    csrfmiddlewaretoken : '{{csrf_token}}'
+                }
+            }).then(res=> window.location = '/dashboard/venues/')
+        });
+    </script>
+{% endblock %}

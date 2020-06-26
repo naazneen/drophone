@@ -1,0 +1,107 @@
+
+<html>
+<head>
+    {% load static %}
+    <title>
+        {% block title %}Page Title{% endblock %}
+    </title>
+    <link rel="stylesheet" href="{% static '/bootstrap/css/bootstrap.min.css' %}">
+    <link rel="stylesheet" href="{% static '/css/site.css' %}">
+    <script src="{% static '/jquery/jquery-3.4.1.min.js' %}"></script>
+    <script src="{% static '/bootstrap/js/bootstrap.min.js' %}"></script>
+    <script src="https://unpkg.com/feather-icons"></script>
+</head>
+
+<body>
+    <div class="container-fluid p-0 m-0">
+        <div class="row p-0 m-0" style="min-height:100vh;">
+            <div class="col-md-2 h-auto p-0 m-0" style="box-shadow: 1px 1px 5px #000; z-index: 20;">
+                <div onClick="window.location.href='/auth/edit-profile'" class="w-100 pointer {% block dashboard_bg_color %}{% endblock dashboard_bg_color %} mb-4 d-flex jsutify-content-center align-items-center cus-user-profile">
+                    <div class="row w-100">
+                        <div class="col-md-2">
+                            <img src="{% block sidebar_propic %}{% endblock sidebar_propic %}" class="rounded-circle border-pro-pic" width="50" height="50" alt="avatar"/>
+                        </div>
+                        <div class="col-md-4 ml-2">
+                            <h5 class="ml-3" style="font-size:20px;">{% block dashboard_username %}{% endblock dashboard_username %}</h5>
+                            <h6 class="ml-3" style="font-size:10px;">{% block dashboard_email %}{% endblock dashboard_email %}</h6>
+                        </div>
+                        <div class="col-md-2 ml-5">
+                            <a href="/auth/edit-profile" class="text-white ml-3"><i data-feather="chevron-down"></i></a>
+                        </div>
+                    </div>
+                </div>
+                <ul class="nav p-0 m-0">
+                    <li class="nav-item cus-nav-item {% block dashboard_active %}{% endblock dashboard_active %} a">
+                        <a class="nav-link" href="/dashboard"> <i data-feather="grid"></i>&nbsp;&nbsp;Updates</a>
+                    </li>
+                    <li class="nav-item cus-nav-item {% block venue_active %}{% endblock venue_active %}">
+                        <a class="nav-link" href="/dashboard/students/"> <i data-feather="home"></i>&nbsp;&nbsp;Students</a>
+                    </li>
+                    <li class="nav-item cus-nav-item {% block mails_active %}{% endblock mails_active %}">
+                        <a class="nav-link" href="/dashboard/collectors/"> <i data-feather="mail"></i>&nbsp;&nbsp;Collectors</a>
+                    </li>
+                    <li class="nav-item cus-nav-item" style="border-top: 1px solid rgba(0,0,0,0.3);">
+                        <a class="nav-link" href="/"> <i data-feather="arrow-left"></i>&nbsp;&nbsp;Site</a>
+                    </li>
+                </ul>
+            </div>
+            <div class="col-md-10 p-0 m-0" style="z-index: 10;">
+                <nav class="navbar mb-5 navbar-light bg-custom">
+                    <div class="d-flex w-100 justify-content-end">
+                        <div class="dropdown">
+                            <span class="notify-badge" style="font-size:10px;background-color:#007bff ;right: 20%;">{% block notifications_length %}
+                            {% endblock notifications_length %}</span>
+                            <button class="btn btn-default text-white dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                <i data-feather="bell"></i>
+                            </button>
+                            <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenuButton">
+                                {% block notifications %}{% endblock notifications %}
+                            </div>
+                            </div>
+                        <div class="btn-group">
+                            <button type="button" class="btn btn-default text-white dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                <i data-feather="user"></i>
+                            </button>
+                            <div class="dropdown-menu dropdown-menu-right p-4">
+                                <div class="">
+                                    <div class="d-flex w-100 justify-content-center">
+                                        <img src="{% block pro_pic %}{% endblock pro_pic %}" class="rounded-circle" width="100" height="100" alt="avatar"/>
+                                    </div>
+                                    <div class="mt-3">
+                                        <h3 class="text-center mt-2">{% block first_name %}{% endblock first_name %}</h3>
+                                    </div>
+                                     <div class="mt-3">
+                                        <h6 class="text-center mt-2">{% block email %}{% endblock email %}</h6>
+                                    </div>
+                                    <div class="mt-3 d-flex w-100 justify-content-center">
+                                        <button id="logoutButton" class="btn btn-primary btn-sm ml-3">Logout</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </nav>
+                {% block content %}
+                {% endblock %}
+            </div>
+        </div>
+    </div>
+    <script>
+      feather.replace()
+      $("#logoutButton").click(function(){
+          $.ajax({
+              url : '/auth/logout/',
+              method : "POST",
+              data:{
+                  csrfmiddlewaretoken : '{{csrf_token}}',
+              }
+          }).then(_=> {window.location.replace('/');})
+      });
+      $('.nav-item').click(function(){
+          $('.nav-item').removeClass('cus-active');
+          $(this).addClass('cus-active')
+      });
+    </script>
+</body>
+<div class = "footer">Built with &#128153; by - Naazneen Jatu</div>
+</html>

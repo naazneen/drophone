@@ -1,0 +1,36 @@
+{% extends "public/__main_temp.html" %}
+{% block title %}School Login{% endblock %}
+{% block content %}
+<div class="container-fluid h-100">
+    <div class="row h-100">
+        <div class="col-md-4">
+            <img src="/static/images/login_image1.svg" alt="login_image_left" class="img-fluid"/>
+        </div>
+        <div class="col-md-4 align-self-center">
+            <h1 class="text-center mb-4 border-bottom-center">Login</h1>
+            {% for message in messages %}
+                <div class="alert alert-danger">
+                    {{message}}
+                </div>
+            {% endfor %}
+            <form action="/auth/" method="post">
+                {% csrf_token %}
+                <div class="form-group">
+                    <input type="email" style="background: #e0e0e0;" required placeholder="Email Address" name="email" class="form-control text-filed-bg-grey"/>
+                </div>
+                <div class="form-group">
+                    <input type="password" style="background: #e0e0e0;" required placeholder="Password" name="password" class="form-control text-filed-bg-grey"/>
+                </div>
+                <div class="form-group">
+                    <button class="btn btn-primary w-25 btn-sm" type="submit">Login</button>
+                </div>
+            </form>
+            <p>Don't have an account ? <a href="/signup">Register</a></p>
+        </div>
+        <div class="col-md-4 h-100">
+            <img src="/static/images/login_image2.svg" alt="login_image_left" height="90%" width="90%" class="img-fluid login-screen-img-2 position-absolute"/>
+        </div>
+    </div>
+</div>
+
+{% endblock %}

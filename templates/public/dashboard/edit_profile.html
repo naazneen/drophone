@@ -1,0 +1,131 @@
+{% extends "public/dashboard/dashboard_sidebar.html" %}
+{% block title %}Edit Profile{% endblock %}
+{% block sidebar_propic %}
+    {% if me.avatar %}
+        /media/{{me.avatar}}
+    {% else %}
+        https://image.flaticon.com/icons/svg/667/667378.svg
+    {% endif %}
+{% endblock sidebar_propic %}
+
+{% block notifications %}
+    {% if notifications %}
+        {% for notification in notifications  %}
+            <a class="dropdown-item" href="/dashboard/emails">{{notification.email_address}}</a>
+        {% endfor %}
+    {% else %}
+        <a class="dropdown-item" href="/dashboard/emails">There Is No Booking Emails</a>
+    {% endif %}
+{% endblock notifications %}
+
+
+{% block notifications_length %}
+    {{notifications|length}}
+{% endblock notifications_length %}
+
+{% block pro_pic %}
+    {% if me.avatar %}
+        /media/{{me.avatar}}
+    {% else %}
+        https://image.flaticon.com/icons/svg/667/667378.svg
+    {% endif %}
+{% endblock pro_pic %}
+
+{% block dashboard_username %}
+    {{me.first_name}}
+{% endblock dashboard_username %}
+{% block email %}
+    {{me.email}}
+{% endblock email %}
+{% block dashboard_email %}
+    {{me.email}}
+{% endblock dashboard_email %}
+
+{% block dashboard_bg_color %}
+    cus-active
+{% endblock dashboard_bg_color %}
+
+{% block first_name %}
+    {{me.first_name}}
+{% endblock first_name %}
+{% block content %}
+    <div class="container-fluid">
+        <div class="row mb-5">
+            <div class="col-md-6">
+                <a href="/dashboard/venues/" class="btn btn-primary round-50">
+                    <i data-feather="chevron-left"></i>
+                </a>
+            </div>
+        </div>
+        <div >
+            <form class="row" action="/auth/update-user/" method="post" enctype="multipart/form-data">
+                <div class="col-md-4">
+                    {% csrf_token %}
+                    <div class="form-group">
+                        <input type="hidden" name="id" value="{{user.id}}"/>
+                        <label for="firstName">First Name</label>
+                        <input type="text" style="background: #e0e0e0;" class="form-control form-control-sm" name="first_name" id="firstName" value="{{user.first_name}}" required/>
+                    </div>
+                    <div class="form-group">
+                        <label for="lastName">Last Name</label>
+                        <input type="text" style="background: #e0e0e0;" class="form-control form-control-sm" name="last_name" id="lastName" value="{{user.last_name}}" required/>
+                    </div>
+                    <div class="form-group">
+                        <label for="email">Email</label>
+                        <input type="email" style="background: #e0e0e0;" class="form-control form-control-sm" name="email" id="email" value="{{user.email}}" required/>
+                    </div>
+                    <div class="form-group">
+                        <label for="newPassword">New Password</label>
+                        <input type="password" style="background: #e0e0e0;" class="form-control form-control-sm" name="new_password" id="newPassword"/>
+                    </div>
+                </div>
+                <div class="col-md-8">
+                    <div class="form-group">
+                        <div class="form-row">
+                            <div class="col-md-3">
+                                <label class="border-0" for="proPic">
+                                    {% if user.avatar %}
+                                        <span class="edit-badge"><i data-feather="edit-2"></i></span>
+                                        <img src="{{user.avatar.url}}" id="imgPreview" class="rounded-circle border-0" height="100" width="100"/>
+                                    {% else %}
+                                        <span class="edit-badge"><i data-feather="edit-2"></i></span>
+                                        <img id="imgPreview" src="https://image.flaticon.com/icons/svg/667/667378.svg" class="border-0" height="100" width="100" class="img-thumbnail"/>
+                                    {% endif %}
+                                </label>
+                                <input id="proPic" class="d-none" onchange="document.getElementById('imgPreview').src = window.URL.createObjectURL(this.files[0])" type="file" class="form-control mt-2" name="new_avatar"/>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-8 form-group">
+                    <button type="submit" class="btn btn-primary">Update</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        $('.btn-approve').click(function(){
+            $.ajax({
+                url : '/dashboard/bookings/approve-booking/',
+                method : 'POST',
+                data : {
+                    id : $(this).val(),
+                    csrfmiddlewaretoken : '{{csrf_token}}',
+                    venue_id : $(this).data('venue')
+                }
+            }).then(res=> window.location = '/dashboard/venues/')
+        });
+        $('.btn-delete').click(function(){
+            $.ajax({
+                url : '/dashboard/bookings/delete-booking/',
+                method : 'POST',
+                data : {
+                    id : $(this).val(),
+                    csrfmiddlewaretoken : '{{csrf_token}}',
+                }
+            }).then(res=> window.location = '/dashboard/venues/')
+        });
+    </script>
+{% endblock %}

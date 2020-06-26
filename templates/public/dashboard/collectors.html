@@ -1,0 +1,91 @@
+{% extends "public/dashboard/dashboard_sidebar.html" %}
+{% block title %}Collectors{% endblock %}
+{% block sidebar_propic %}
+    {% if me.avatar %}
+        /media/{{me.avatar}}
+    {% else %}
+        https://image.flaticon.com/icons/svg/667/667378.svg
+    {% endif %}
+{% endblock sidebar_propic %}
+{% block dashboard_username %}
+    {{me.first_name}}
+{% endblock dashboard_username %}
+
+{% block mails_active %}
+    cus-active
+{% endblock mails_active %}
+
+{% block notifications %}
+    {% if notifications %}
+        {% for notification in notifications  %}
+            <a class="dropdown-item" href="/dashboard/emails">{{notification.email_address}}</a>
+        {% endfor %}
+    {% else %}
+        <a class="dropdown-item" href="/dashboard/emails">There Is No Booking Emails</a>
+    {% endif %}
+{% endblock notifications %}
+
+
+{% block notifications_length %}
+    {{notifications|length}}
+{% endblock notifications_length %}
+
+{% block email %}
+    {{me.email}}
+{% endblock email %}
+{% block dashboard_email %}
+    {{me.email}}
+{% endblock dashboard_email %}
+
+{% block pro_pic %}
+    {% if me.avatar %}
+        /media/{{me.avatar}}
+    {% else %}
+        https://image.flaticon.com/icons/svg/667/667378.svg
+    {% endif %}
+{% endblock pro_pic %}
+{% block first_name %}
+    {{me.first_name}}
+{% endblock first_name %}
+{% block content %}
+    <div class="container-fluid">
+        <div class="row mb-5">
+            <div class="col-md-6">
+                <a href="/dashboard/collectors/add-collector/" class="btn btn-primary round-50">
+                    <i data-feather="plus"></i>
+                </a>
+            </div>
+        </div>
+        {% if collectors %}
+            <table class="table table-responsive w-100">
+                <thead>
+                    <tr>
+                        <th class="w-25">Collector Name</th>
+                        <th class="w-25">Address</th>
+                        <th class="w-25">Pin Code</th>
+                        <th class="w-25">Phone Number</th>
+                         <th class="w-25">Has Task</th>
+                        <th>&nbsp;</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for c in collectors %}
+                        <tr>
+                            <td>{{c.CollectorName}}</td>
+                            <td>{{c.CollectorAddress}}</td>
+                            <td>{{c.Pincode}}</td>
+                            
+                            <td>{{c.PhoneNumber}}</td>
+                            <td>{% if c.hastask > 0 %} <strong class="text-warning">Yes - {{c.hastask}}</strong> {% else %} <strong class="text-dark">No</strong> {% endif %}</td>
+                            <td><a class="btn btn-light" href="{{venue.id}}"><i data-feather="settings"></i></a></td>
+                        </tr>
+                    {% empty %}
+                        no collectors
+                    {% endfor %}
+                </tbody>
+            </table>
+        {% else %}
+            <p>There  are no collectors yet.</p>
+        {% endif %}
+    </div>
+{% endblock %}

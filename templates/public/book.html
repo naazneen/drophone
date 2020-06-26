@@ -1,0 +1,90 @@
+{% extends "public/__main_temp.html" %}
+{% block title %}Venues{% endblock %}
+{% block content %}
+{% include 'public/partials/_nav_bar.html' with user_logged=user_logged %}
+<div class="container">
+    <h4 class="text-muted mb-5">Home/Venues/venue/booking</h4>
+    <div class="row">
+        <div class="col-md-6 ">
+            <h3 class="text-muted mb-3">Booking Venue</h3>
+            <div class="card flex-row border-0 flex-wrap">
+                <div class="card-header bg-transparent border-0">
+                    {% if venue.img_one %}
+                        <img src="{{venue.img_one.url}}" height="120" width="120" alt="img_one">
+                    {% else %}
+                        <img src="https://homestaymatch.com/images/no-image-available.png" height="120" width="120" alt="Second slide">
+                    {% endif %}
+                </div>
+                <div class="card-block px-3">
+                    <h4 class="card-title">{{venue.name}}</h4>
+                    <h4 class="text-warning">${{venue.price}}</h4>
+                </div>
+            </div>
+            
+            <div class="card-body"><p class="card-text">{{venue.description}}</p></div>
+        </div>
+        <div class="col-md-6">
+        <h3 class="font-weight-bold text-muted">Order Details</h3>
+            <form action="/book/put-order/" method="post">
+                {% csrf_token %}
+                <div class="form-group">
+                    <div class="form-row">
+                        <div class="col-md-6">
+                            <input type="hidden" name="id" value="{{venue.id}}" />
+                            <input type="hidden" name="owner_id" value="{{venue.owner_id}}" />
+                            <input type="hidden" name="venue_name" value="{{venue.name}}" />
+                            <label for="firstname">First Name</label>
+                            <input type="text" style="background: #e0e0e0;" name="first_name" id="firstName" class="form-control form-control-sm" required/>
+                        </div>
+                        <div class="col-md-6">
+                            <label for="lastname">Last Name</label>
+                            <input type="text" style="background: #e0e0e0;" name="last_name" id="lastName" class="form-control form-control-sm" required/>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="form-row">
+                        <div class="col-md-6">
+                            <label for="email">Email</label>
+                            <input type="email" style="background: #e0e0e0;" name="email" id="firstName" class="form-control form-control-sm" required/>
+                        </div>
+                        <div class="col-md-6">
+                            <label for="phoneNumber">Tel Number</label>
+                            <input type="text" style="background: #e0e0e0;" name="phone_number" id="phoneNumber" class="form-control form-control-sm" required/>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="form-row">
+                        <div class="col-md-6">
+                            <label for="address">Address</label>
+                            <textarea name="address" style="background: #e0e0e0;" id="address" class="form-control resize-false-textarea" rows="5" required></textarea>
+                        </div>
+                        <div class="col-md-3">
+                            <label for="fromDate">Date From</label>
+                            <input type="date" style="background: #e0e0e0;" name="from_date" id="fromDate" class="form-control form-control-sm" onclick="disablePastDate(this)" required/>
+                            <label for="fromTime">Time From</label>
+                            <input type="time" style="background: #e0e0e0;" name="from_time" id="fromTime" class="form-control form-control-sm" required/>
+                        </div>
+                        <div class="col-md-3">
+                            <label for="toDate">Date To</label>
+                            <input type="date" style="background: #e0e0e0;" name="to_date" id="toDate" class="form-control form-control-sm" onclick="disablePastDate(this)"  required/>
+                            <label for="toTime">Time To</label>
+                            <input type="time" style="background: #e0e0e0;" name="to_time" id="toTime" class="form-control form-control-sm" required/>
+                        </div>
+                    </div>
+                </div>
+                <div class="form=-group">
+                    <button type=="submit" class="btn btn-primary btn-sm">Place Order</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+<script>
+    function disablePastDate(e){
+        var today = new Date().toISOString().split('T')[0];
+        e.setAttribute('min', today);
+    }
+</script>
+{% endblock %}

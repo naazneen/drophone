@@ -1,0 +1,38 @@
+{% extends "public/__main_temp.html" %}
+{% block title %}Venues{% endblock %}
+{% block content %}
+{% include 'public/partials/_nav_bar.html' with user_logged=user_logged %}
+<div class="container">
+    <h3 class="text-muted mb-5">Home/Venues/venue/booking</h3>
+    <div class="d-flex align-items-center justify-content-center">
+        <div class="w-50">
+            <h3 class="text-muted">Booking Successful !</h3>
+            <div class="card w-100">
+                    <div class="row w-100">
+                        <div class="card-header col-md-4 bg-transparent border-0">
+                            {% if venue.img_one %}
+                                <img src="{{venue.img_one.url}}" class="m-2" height="150" width="150" alt="img_one">
+                                <p class="card-text text-warning ml-2">${{venue.price}}</p>
+                            {% endif %}
+                        </div>
+                        <div class="card-block col-md-8 px-2">
+                            <h4 class="card-title text-muted mt-2">{{venue.name}}</h4>
+                            <p class="text-muted">{{venue.description|slice:"0:40"}}<p>
+                        </div>
+                </div>
+            </div>
+        <div class="card border-0 w-100">
+            <div class="card-body">
+                <h6 class="text-muted mb-3">First Name : {{booking.first_name}}</h6>
+                <h6 class="text-muted mb-3">Last Name : {{booking.last_name}}</h6>
+                <h6 class="text-muted mb-3">Email : {{booking.email_address}}</h6>
+                <h6 class="text-muted mb-3">Address : {{booking.address}}</h6>
+                <h6 class="text-muted mb-3">Date : {{booking.from_date}}</h6>
+                <h6 class="text-muted mb-3">Time : {{booking.from_time}} to {{booking.to_time}}</h6>
+                <a href="/" class="text-primary">Back to home</a>
+            </div>
+        </div>
+        <div>        
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,23 @@
+{% comment %} <nav class="navbar mb-3 row navbar-light bg-primary h-10 w-100">
+    <div class="col-md-6 w-100">
+        <a class="navbar-brand text-white" href="/">Logo</a>
+    </div>
+    <div class="col-md-6 d-flex w-100 justify-content-end h-100">
+        {% if not user_logged %}
+            <a class="nav-link text-white mr-4 menue-border-bottom" href="/login">Login</a>
+            <a class="nav-link text-white menue-border-bottom" href="/signup">Signup</a>
+        {% else %}
+            <a class="nav-link text-white mr-4 menue-border-bottom" href="/dashboard">Profile</a>
+        {% endif %}
+    </div>
+</nav> {% endcomment %}
+
+<nav class="navbar navbar-expand-sm bg-primary mb-1 navbar-dark justify-content-end">
+    <a class="navbar-brand" href="/">Logo</a>
+    {% if not user_logged %}
+        <a class="nav-link ml-auto mr-1 text-white mr-4 menue-border-bottom" href="/login">Login</a>
+        <a class="nav-link text-white menue-border-bottom" href="/signup">Signup</a>
+    {% else %}
+        <a class="nav-link ml-auto mr-1 text-white mr-4 menue-border-bottom" href="/dashboard">Profile</a>
+    {% endif %}
+</nav>

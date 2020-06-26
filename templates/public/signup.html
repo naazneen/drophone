@@ -1,0 +1,75 @@
+{% extends "public/__main_temp.html" %}
+{% block title %}School Register{% endblock %}
+{% block content %}
+<div class="container-fluid h-100">
+    <div class="row h-100">
+        <div class="col-md-4">
+            <img src="/static/images/login_image1.svg" alt="login_image_left" class="img-fluid"/>
+        </div>
+        <div class="col-md-4 align-self-center">
+            <h1 class="text-center mb-4 border-bottom-center">Signup</h1>
+            <form action="/users/" method="post">
+                {% for message in messages %}
+                    <div class="alert alert-warning mb-4 mt-4">
+                        {{message}}
+                    </div>
+                {% endfor %}
+                {% csrf_token %}
+                <div class="form-group">
+                    <input type="text" id="schoolname" style="background: #e0e0e0;" required placeholder="Schooln Name" name="schoolname" class="form-control text-filed-bg-grey"/>
+                </div>
+                <div class="form-group">
+                    <input type="text" id="schooladdress" style="background: #e0e0e0;" required placeholder="School Address" name="schooladdress" class="form-control text-filed-bg-grey"/>
+                </div>
+            <div class="form-group">
+                    <input type="text" id="pincode" style="background: #e0e0e0;" required placeholder="Pin Code" name="pincode" class="form-control text-filed-bg-grey"/>
+                </div>
+                <div class="form-group">
+                    <input type="text" id="udise" style="background: #e0e0e0;" required placeholder="UDISE Number" name="udise" class="form-control text-filed-bg-grey"/>
+                </div>
+                <div class="form-group">
+                    <input type="text" id="principal" style="background: #e0e0e0;" required placeholder="Principal" name="principal" class="form-control text-filed-bg-grey"/>
+                </div>
+                <div class="form-group">
+                    <input type="text" id="phonenumber" style="background: #e0e0e0;" required placeholder="Phone Number" name="phonenumber" class="form-control text-filed-bg-grey"/>
+                </div>
+                <div class="form-group">
+                    <input type="email" id="email" style="background: #e0e0e0;" required placeholder="Email Address" name="email" class="form-control text-filed-bg-grey"/>
+                    <small class="text-muted" id="emailHelper"></small>
+                </div>
+                <div class="form-group">
+                    <input type="password" id="password" style="background: #e0e0e0;" required placeholder="Password" name="password" class="form-control text-filed-bg-grey"/>
+                </div>
+                <div class="form-group">
+                    <div class="custom-control custom-checkbox">
+                        <input type="checkbox" class="custom-control-input" id="customCheck" name="example1">
+                        <label class="custom-control-label" for="customCheck">I Agree to <a href="/termsandconditions">Terms and Conditions</a></label>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <button class="btn btn-primary w-25 btn-sm" type="submit">Signup</button>
+                </div>
+            </form>
+            <p>Already have an account ? <a href="/login">Login</a></p>
+        </div>
+        <div class="col-md-4 h-100">
+            <img src="/static/images/login_image2.svg" alt="login_image_left" height="90%" width="90%" class="img-fluid login-screen-img-2 position-absolute"/>
+        </div>
+    </div>
+</div>
+
+<script>
+    $('#email').keyup(function(){
+        if($(this).val().length > 2){
+            $.ajax({
+                method : 'GET',
+                url : `/users/get-by-email/${$(this).val()}`
+            }).then(res=>{
+                console.log(res.length);
+                res.length > 2 ? $('#emailHelper').text('This Email Already Exists'): $('#emailHelper').text(null)
+            })
+        }
+    });
+</script>
+
+{% endblock %}

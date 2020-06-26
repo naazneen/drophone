@@ -1,0 +1,127 @@
+
+{% extends "public/collector/collector_sidebar.html" %}
+{% block title %}Venues{% endblock %}
+
+{% block notifications %}
+    {% if notifications %}
+        {% for notification in notifications  %}
+        <a class="dropdown-item" href="/collector_dashboard">New task assigned</a>
+            <!--<a class="dropdown-item" href="/dashboard/emails">{{notification.email_address}}</a>-->
+        {% endfor %}
+    {% else %}
+        <a class="dropdown-item" href="/collector_dashboard">There Is No New task for you</a>
+    {% endif %}
+{% endblock notifications %}
+
+
+{% block notifications_length %}
+    {{notifications|length}}
+{% endblock notifications_length %}
+
+
+{% block dashboard_username %}
+    {{me.CollectorName}}
+{% endblock dashboard_username %}
+
+
+{% block pro_pic %}
+    {% if me.avatar %}
+        /media/{{me.avatar}}
+    {% else %}
+        https://image.flaticon.com/icons/svg/667/667378.svg
+    {% endif %}
+{% endblock pro_pic %}
+{% block first_name  %}
+    {{me.CollectorName}}
+{% endblock first_name  %}
+{% block content %}
+
+<h1>Tasks</h1>
+
+
+
+ <div class="container-fluid">
+         
+        {% if myphones %}
+         
+           <table class="table table-responsive w-100">
+                <thead>
+                    <tr>
+                        <th class="w-25">Collect From Address</th>
+                        <th class="w-25">Deliver To Address</th>
+                        <th class="w-25">In Repair</th>
+                        <th class="w-25">Collect Repaired</th>
+                         
+                        <th>&nbsp;</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for p in myphones %}
+                     {% for s in students %}
+                        <tr>
+                            <td>{{p.Name}} , {{p.Address}}
+                            {% if p.Collected == 'No' %}
+                            <br/><a class="btn btn-primary border-rounded" href= "{% url 'pickup' p.id %}">Pick Up</a>
+                            {% else %}
+                            Collected
+                            {% endif %}
+                            </td>
+                           
+                            
+                            <td>
+                         
+                         {{s.firstname}}{{s.lastname}},
+                            {{s.address}} {{s.pincode}}
+                          
+                        {% if s.hasphone == 'no' %}
+                            <br/><a class="btn btn-primary border-rounded" href= "{% url 'deliver' s.id %}">Deliver</a>
+                            {% else %}
+                            Delivered
+                            {% endif %}
+                            </td>
+                            <td>{% if p.Delivered == 'yes'%}
+                            not applicable
+                            {% else %}
+                            {% if p.AtService == 'Yes' %}
+                            At Service <br />{{p.AtRepairCenter}}
+                            {% else %}
+                            <br/> <a class="btn btn-primary border-rounded" href = "{% url 'giverepair' p.id %}">Give to Repair</a>
+                            {% endif %}
+                            {% endif %}
+                            
+                            </td>
+                           
+                            <td> {% if p.AtService == 'No' %}
+                            Not Applicable
+                            {% else %}
+                            {% if p.ReceivedService == 'yes' %}
+                            Collected
+                            {% else %}
+                            {% if p.AtService == 'Yes' and p.ReceivedService == 'no' %}
+                            <br/><a class="btn btn-primary border-rounded" href = "{% url 'collectrepair' p.id %}">Collect </a>
+                            {% endif %}
+                            </td>
+                            {% endif %}
+                            {% endif %}
+                            <td>
+                            <br/><a class="btn btn-primary border-rounded" href = "{% url 'updatestatus' p.id %}">Done</a>
+                            </td>
+                           
+                         </tr>
+                         
+                    
+                    {% empty %}
+                        no phones
+                    {% endfor %}  {% endfor %}
+                              {% else %}
+           
+        {% endif %}
+                           
+                 
+                </tbody>
+                
+            </table>
+      <p>No more phones</p>
+    </div>
+
+{% endblock %}

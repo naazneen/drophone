@@ -1,0 +1,185 @@
+{% extends "public/dashboard/dashboard_sidebar.html" %}
+{% block title %}Venues{% endblock %}
+
+{% block notifications %}
+    {% if notifications %}
+        {% for notification in notifications  %}
+        <a class="dropdown-item" href="/dashboard">New Phone available</a>
+            <!--<a class="dropdown-item" href="/dashboard/emails">{{notification.email_address}}</a>-->
+        {% endfor %}
+    {% else %}
+        <a class="dropdown-item" href="/dashboard">There Is No New Phone</a>
+    {% endif %}
+{% endblock notifications %}
+
+
+{% block notifications_length %}
+    {{notifications|length}}
+{% endblock notifications_length %}
+
+{% block sidebar_propic %}
+    {% if me.avatar %}
+        /media/{{me.avatar}}
+    {% else %}
+        https://image.flaticon.com/icons/svg/667/667378.svg
+    {% endif %}
+{% endblock sidebar_propic %}
+{% block dashboard_username %}
+    {{me.first_name}}
+{% endblock dashboard_username %}
+{% block email %}
+    {{me.email}}
+{% endblock email %}
+{% block dashboard_email %}
+    {{me.email}}
+{% endblock dashboard_email %}
+
+{% block dashboard_active %}
+    cus-active
+{% endblock dashboard_active %}
+
+{% block pro_pic %}
+    {% if me.avatar %}
+        /media/{{me.avatar}}
+    {% else %}
+        https://image.flaticon.com/icons/svg/667/667378.svg
+    {% endif %}
+{% endblock pro_pic %}
+{% block first_name %}
+    {{me.first_name}}
+{% endblock first_name %}
+{% block content %}
+<div class="modal fade" tabindex="-1" role="dialog" id="modal">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content"></div>
+  </div>
+</div>
+
+
+
+<div class="container-fluid">
+    <h1 class="text-muted mb-4">Updates</h1>
+    <div class="card-deck mb-4">
+        <div class="card shadow" style="max-width:20%">
+            <div class="card-header bg-transparent">
+                <h6 class="text-center">Phones Given</h6>
+            </div>
+            <div class="card-body">
+                <h1 class="text-dark text-center">{{bookings}}</h1>
+            </div>
+        </div>
+        <div class="card shadow" style="max-width:20%">
+            <div class="card-header bg-transparent">
+                <h6 class="text-center">Students Pending</h6>
+            </div>
+            <div class="card-body">
+                <h1 class="text-warning text-center">{{booked_venues}}</h1>
+            </div>
+        </div>
+        
+    </div>
+    <div class="container-fluid">
+         
+        {% if phones %}
+         <h2>New phones</h2>
+           <table class="table table-responsive w-100">
+                <thead>
+                    <tr>
+                        <th class="w-25">Donor Name</th>
+                        <th class="w-25">Address</th>
+                        <th class="w-25">Pin Code</th>
+                        <th class="w-25">Phone Number</th>
+                         <th class="w-25">Collector</th>
+                        <th>&nbsp;</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for p in phones %}
+                    {% if p.CollectorName == Null %} 
+                        <tr>
+                            <td>{{p.Name}}</td>
+                            <td>{{p.Address}}</td>
+                            <td>{{p.Pincode}}</td>
+                            <td>{{p.Contact_Number}}</td>
+                            
+                            <td>
+                             
+                            <a class="btn btn-primary border-rounded" href = "{% url 'save_assign' p.id %}" >Assign</a>
+                         </td>
+                         </tr>
+                          {% endif %}
+                    
+                    {% empty %}
+                        no phones
+                    {% endfor %}
+                              {% else %}
+           
+        {% endif %}
+                           
+                 
+                </tbody>
+                
+            </table>
+      <p>No more phones</p>
+    </div>
+    {% if myphones %} 
+         <h2>Assigned phones</h2>
+     
+            <table class="table table-responsive w-100">
+                <thead>
+                    <tr>
+                        <th class="w-25">Donor Name , Address</th>
+                        
+                        <th class="w-25">Pin Code</th>
+                        <th class="w-25">Phone Number</th>
+                         <th class="w-25">Collector</th>
+                         <th class="w-25">Collected</th>
+                         <th class="w-25">Repair</th>
+                         <th class="w-25">Delivered</th>
+                         
+                        <th>&nbsp;</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for p in myphones %}
+                        <tr>
+                            <td>{{p.Name}} , {{p.Address}}</td>
+                            <td>{{p.Pincode}}</td>
+                            <td>{{p.Contact_Number}}</td>
+                            <td>{{p.CollectorName}}</td>
+                        <td>{% if p.Collected == 'yes' %} &#10004;
+                        {% else %}&#10008;{% endif %}</td>
+                        
+                            <td>{% if p.ReceivedService == 'yes' %} &#10004;
+                             {% else %}&#10008;{% endif %}</td>
+                        
+                            <td>{% if p.Delivered == 'yes' %} &#10004;
+                             {% else %}&#10008;{% endif %}</td>
+                        
+                        
+                         </tr>
+                   
+                    
+                    {% empty %}
+                        no phones
+                    {% endfor %}
+                        
+           
+   
+                           
+                 
+                </tbody>
+                
+            </table>
+    
+    
+    
+    
+
+    {% else %}
+    <p>No assigned Phones</p>
+    {% endif %}
+    
+</div>
+
+{% endblock %}

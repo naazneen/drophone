@@ -1,0 +1,9 @@
+.d-content {
+    max-height: 100vh;
+    overflow: auto;
+}
+
+.content-loading {
+    margin: 0px auto;
+    background-color: salmon;
+}
