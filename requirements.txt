@@ -20,7 +20,7 @@ mysqlclient==1.4.6
 odfpy==1.4.1
 openpyxl==3.0.3
 Pillow==7.0.0
-protobuf==3.6.1
+protobuf==3.18.3
 pycparser==2.20
 pylint==2.4.4
 PyMySQL==0.9.3
